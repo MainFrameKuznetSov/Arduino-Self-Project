@@ -1,7 +1,5 @@
 #include <DHT.h>
-//#include <DHT_U.h>
 #include <NewPing.h>
-//#include <New_Ping.h>
 #define TPin1 12
 #define EPin1 12
 #define TPin2 5
@@ -9,11 +7,11 @@
 #define MaxDist 500
 #define DPIN 7
 #define DHTTYPE DHT22
-NewPing np1(TPin1,EPin1,MaxDist);
-NewPing np2(TPin2,EPin2,MaxDist);
+NewPing np1(TPin1,EPin1,MaxDist);// Creating NewPing object for Ultrasound Sensor 1
+NewPing np2(TPin2,EPin2,MaxDist);// Creating NewPing object for Ultrasound Sensor 2
 float dur1,dur2,dist1,dist2;
 const int iter=5;
-DHT dht(DPIN, DHTTYPE);
+DHT dht(DPIN, DHTTYPE);// Creating DHT-Object
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -21,21 +19,20 @@ void setup() {
 }
 
 void loop() {
-  delay(2000);
+  delay(500);
   // put your main code here, to run repeatedly:
   float speed;
-  //dur = pulseIn(EPin, HIGH);
   float hum, temp;
-  hum = dht.readHumidity();
-  temp = dht.readTemperature();
+  hum = dht.readHumidity();// Reading Temperature
+  temp = dht.readTemperature();// Reading Humidity
   Serial.print("Humidity:- ");
   Serial.println(hum);
   Serial.print("Temperature:- ");
   Serial.println(temp);
-  speed = 331.4 + (0.606 * temp) + (0.0124 * hum);
-  dur1=np1.ping_median(iter);
-  dur2=np2.ping_median(iter);  
-  dist1= (dur1 / 2) * (speed/ 10000);
+  speed = 331.4 + (0.606 * temp) + (0.0124 * hum);// Accurate calculation of velocity of sound with temperature and humidity being taken into account
+  dur1=np1.ping_median(iter);// Duration to receive echo of 1st Ultrasound Sensor
+  dur2=np2.ping_median(iter);// Duration to receive echo of 2nd Ultrasound Sensor
+  dist1= (dur1 / 2) * (speed/ 10000);// Computes distance in cm
   dist2= (dur2 / 2) * (speed/ 10000);
   Serial.print("Speed:- ");
   Serial.print(speed);
