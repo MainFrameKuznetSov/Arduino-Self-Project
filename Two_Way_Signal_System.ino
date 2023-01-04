@@ -2,17 +2,16 @@
     Name:- MainFrame KuznetSov
     Date:- 3rd January, 2023
     Venue:- IEM KOLKATA :-(
+    Refer to the previous code snippet for additional info on the working of the initial model.
 */
 #include <DHT.h>
-//#include <DHT_U.h>
 #include <NewPing.h>
-//#include <New_Ping.h>
 #define TPin1 12
 #define EPin1 12
 #define TPin2 5
 #define EPin2 5
-#define R1G2 9
-#define R2G1 10
+#define R1G2 9// Here, Red on 1st UltraSound Sensor means Green on the 2nd
+#define R2G1 10// Here, Red on 2nd UltraSound Sensor means Green on the 1st
 #define MaxDist 500
 #define DPIN 7
 #define DHTTYPE DHT22
@@ -71,21 +70,21 @@ void loop()
     Serial.print(dist2);
     Serial.println(" cm");
   }
-  if(dist1>dist2)
+  if(dist1>dist2)// When vehicle is closer to the second UltraSound Sensor, Signal 1 becomes RED and Signal 2 GREEN
   {
     Serial.println("Signal 1 RED, Signal 2 GREEN");
     digitalWrite(R2G1,LOW);
     digitalWrite(R1G2,HIGH);
   }
-  else if(dist2>dist1)
+  else if(dist2>dist1)// When vehicle is closer to the second UltraSound Sensor, Signal 1 becomes GREEN and Signal 2 RED
   {
     Serial.println("Signal 1 GREEN, Signal 2 RED");
     digitalWrite(R1G2,LOW);
     digitalWrite(R2G1,HIGH);   
   }
-  else
+  else// when distance of two vehicles become equal
   {
-      int randNum=rand();
+      int randNum=rand();// Generates Random number to allow only one at a time
       if(randNum%2==0)
       {
           digitalWrite(R2G1,LOW);
