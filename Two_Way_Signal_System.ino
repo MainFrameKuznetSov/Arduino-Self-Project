@@ -15,6 +15,7 @@
 #define MaxDist 500
 #define DPIN 7
 #define DHTTYPE DHT22
+#define wait 1000
 NewPing np1(TPin1,EPin1,MaxDist);
 NewPing np2(TPin2,EPin2,MaxDist);
 float dur1,dur2,dist1,dist2;
@@ -75,12 +76,14 @@ void loop()
     Serial.println("Signal 1 RED, Signal 2 GREEN");
     digitalWrite(R2G1,LOW);
     digitalWrite(R1G2,HIGH);
+    delay(wait);
   }
   else if(dist2>dist1)// When vehicle is closer to the second UltraSound Sensor, Signal 1 becomes GREEN and Signal 2 RED
   {
     Serial.println("Signal 1 GREEN, Signal 2 RED");
     digitalWrite(R1G2,LOW);
     digitalWrite(R2G1,HIGH);   
+    delay(wait);
   }
   else// when distance of two vehicles become equal
   {
@@ -94,7 +97,8 @@ void loop()
       {
           digitalWrite(R1G2,LOW);
           digitalWrite(R2G1,HIGH);          
-      }    
+      } 
+      delay(wait);
   }
   delay(200);
   Serial.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
